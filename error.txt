@@ -1,0 +1,44 @@
+WEBSOCKET AUTHENTICATION ERROR - FIXED!
+
+🔧 PROBLEM IDENTIFIED:
+WebSocket connection was failing with "No token provided or invalid format" error because:
+1. Frontend was sending token in 'auth' object, but backend expected it in 'authorization' header
+2. Backend WebSocket handler was using wrong database module (PostgreSQL instead of SQLite)
+3. Missing user_sessions table check causing authentication failures
+4. CORS configuration didn't include the frontend Vite dev server URL
+
+✅ SOLUTIONS APPLIED:
+
+1. FRONTEND FIXES (src/services/websocket.ts):
+   - Changed from `auth: { token: Bearer ${token} }` to `extraHeaders: { 'authorization': Bearer ${token} }`
+   - Removed 'disabled' status and enabled real WebSocket connections
+
+2. BACKEND FIXES (src/websocket/handler.js):
+   - Fixed database import: Changed from '../config/database' to '../config/sqlite-database'
+   - Updated authentication to check both header formats for compatibility
+   - Simplified session validation for SQLite (removed user_sessions dependency)
+   - Fixed user table column names (full_name → name)
+
+3. SERVER CONFIGURATION (src/server.js):
+   - Updated CORS to use environment variable CORS_ORIGIN
+   - Added support for multiple frontend URLs including Vite dev server
+
+4. ENVIRONMENT CONFIGURATION (.env):
+   - Added Vite frontend URL (http://localhost:5173) to CORS_ORIGIN
+   - Ensured proper JWT_SECRET configuration
+
+🧪 TEST RESULTS:
+✅ WebSocket authentication: WORKING
+✅ Token validation: WORKING  
+✅ Online user tracking: WORKING
+✅ Real-time connection: WORKING
+
+📊 FINAL STATUS:
+WebSocket connection now successfully authenticates and tracks online users in real-time.
+The chatbot frontend will now show actual WebSocket connection status instead of simulated data.
+
+To start the system:
+1. Backend: cd backend && npm start
+2. Frontend: cd .. && npm run dev
+
+WebSocket will automatically connect when user logs in.

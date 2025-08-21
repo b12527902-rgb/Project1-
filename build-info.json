@@ -1,0 +1,10 @@
+{
+  "name": "chatty-web-architect-backend",
+  "version": "1.0.0",
+  "description": "Production backend server for Chatty Web Architect",
+  "main": "src/server.js",
+  "buildDate": "2025-08-20T13:58:58.081Z",
+  "nodeVersion": "v22.18.0",
+  "platform": "win32",
+  "environment": "production"
+}

@@ -1,0 +1,302 @@
+openapi: 3.0.0
+info:
+  title: Chatty Web Architect API
+  version: 1.0.0
+  description: API documentation for Chatty Web Architect backend.
+servers:
+  - url: http://localhost:3001/api
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                fullName:
+                  type: string
+      responses:
+        '201':
+          description: User registered
+        '400':
+          description: Validation error
+  /auth/login:
+    post:
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successful login
+        '400':
+          description: Validation error
+  /auth/reset-password:
+    post:
+      summary: Request password reset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Reset email sent
+  /auth/reset-password/confirm:
+    post:
+      summary: Confirm password reset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        '200':
+          description: Password reset
+  /chat/message:
+    post:
+      summary: Send message to AI
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                personality:
+                  type: string
+                conversationId:
+                  type: string
+      responses:
+        '200':
+          description: AI response
+  /chat/conversations:
+    get:
+      summary: Get user conversations
+      responses:
+        '200':
+          description: List of conversations
+  /chat/conversations/{id}:
+    get:
+      summary: Get specific conversation
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Conversation details
+    delete:
+      summary: Delete conversation
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Conversation deleted
+    patch:
+      summary: Update conversation
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Conversation updated
+  /chat/stats:
+    get:
+      summary: Get chat statistics
+      responses:
+        '200':
+          description: Chat stats
+  /users/profile:
+    get:
+      summary: Get user profile
+      responses:
+        '200':
+          description: User profile
+    patch:
+      summary: Update user profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Profile updated
+  /users/change-password:
+    post:
+      summary: Change user password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                currentPassword:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        '200':
+          description: Password changed
+  /users/account:
+    delete:
+      summary: Delete user account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Account deleted
+  /users/activity:
+    get:
+      summary: Get user activity
+      responses:
+        '200':
+          description: User activity
+  /users/usage:
+    get:
+      summary: Get user usage statistics
+      responses:
+        '200':
+          description: Usage stats
+  /subscriptions/status:
+    get:
+      summary: Get subscription status
+      responses:
+        '200':
+          description: Subscription status
+  /subscriptions/plans:
+    get:
+      summary: Get available plans
+      responses:
+        '200':
+          description: List of plans
+  /subscriptions/cancel:
+    post:
+      summary: Cancel subscription
+      responses:
+        '200':
+          description: Subscription cancelled
+  /subscriptions/history:
+    get:
+      summary: Get subscription history
+      responses:
+        '200':
+          description: Subscription history
+  /subscriptions/usage:
+    get:
+      summary: Get subscription usage analytics
+      responses:
+        '200':
+          description: Usage analytics
+  /tools/script-generator:
+    post:
+      summary: Generate code script
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Generated script
+  /tools/payload-generator:
+    post:
+      summary: Generate security payload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Generated payload
+  /tools/business-planner:
+    post:
+      summary: Generate business plan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Generated business plan
+  /tools/generate-pdf:
+    post:
+      summary: Generate PDF document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Generated PDF
+  /tools/usage-history:
+    get:
+      summary: Get tools usage history
+      responses:
+        '200':
+          description: Usage history
+  /tools/available:
+    get:
+      summary: Get available tools
+      responses:
+        '200':
+          description: Available tools 

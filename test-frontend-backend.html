@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Frontend-Backend Connection</title>
+</head>
+<body>
+    <h1>Testing Frontend-Backend Connection</h1>
+    <button onclick="testConnection()">Test Connection</button>
+    <div id="result"></div>
+
+    <script>
+        async function testConnection() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                // Test health endpoint
+                const response = await fetch('http://localhost:5000/health');
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <h3>✅ SUCCESS!</h3>
+                    <p>Backend is responding on port 5000</p>
+                    <p>Status: ${data.status}</p>
+                    <p>Services: ${JSON.stringify(data.services)}</p>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>❌ FAILED</h3>
+                    <p>Error: ${error.message}</p>
+                    <p>This indicates a "Failed to fetch" error</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
